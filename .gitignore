@@ -1,0 +1,7 @@
+obj/
+Library/
+Temp/
+*.sln
+*.csproj
+Pixadventure/.vsconfig
+Pixadventure/.vs/2D Tutorial/v16/.suo
