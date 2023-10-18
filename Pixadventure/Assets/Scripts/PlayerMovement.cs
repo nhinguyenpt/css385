@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask wallLayer;
     private Rigidbody2D body;
     private Animator anim;
-    private BoxCollider2D boxCollider;
+    private EdgeCollider2D boxCollider;
     private float wallJumpCooldown;
     private float horizontalInput;
 
@@ -17,7 +17,8 @@ public class PlayerMovement : MonoBehaviour
         //Grab references for rigidbody and animator from object
         body = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        boxCollider = GetComponent<BoxCollider2D>();
+        //boxCollider = GetComponent<BoxCollider2D>();
+        boxCollider = GetComponent<EdgeCollider2D>();
     }
 
     private void Update()
