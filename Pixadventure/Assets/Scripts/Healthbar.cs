@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class Healthbar : MonoBehaviour
 {
-    [SerializeField] private Health playerHealth;
+    [SerializeField] private Player playerHealth;
     [SerializeField] private Image maxHealthImg;
     [SerializeField] private Image currentHealthImg;
 

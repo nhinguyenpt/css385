@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Finish : MonoBehaviour
 {
-    [SerializeField] private Health playerHealth;
+    [SerializeField] private Player playerHealth;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

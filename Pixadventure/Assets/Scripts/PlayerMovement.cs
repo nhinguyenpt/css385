@@ -2,6 +2,7 @@
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private float scale;
     [SerializeField] private float speed;
     [SerializeField] private float jumpPower;
     [SerializeField] private LayerMask groundLayer;
@@ -27,9 +28,9 @@ public class PlayerMovement : MonoBehaviour
 
         //Flip player when moving left-right
         if (horizontalInput > 0.01f)
-            transform.localScale = new Vector3(0.5f, 0.5f);
+            transform.localScale = new Vector3(scale, scale);
         else if (horizontalInput < -0.01f)
-            transform.localScale = new Vector3(-0.5f, 0.5f);
+            transform.localScale = new Vector3(-1.0f * scale, scale);
 
         //Set animator parameters
         anim.SetBool("run", horizontalInput != 0);
