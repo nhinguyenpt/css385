@@ -7,12 +7,14 @@ public class Player : MonoBehaviour
     public float currentHealth { get; private set; }
     private Animator ani;
     private UIManager uiManager;
+    private int currentLevel;
 
     private void Awake()
     {
         currentHealth = maxHealth;
         ani = GetComponent<Animator>();
         uiManager = FindObjectOfType<UIManager>();
+        currentLevel = 0;
     }
 
     public void TakeDamage(float _damage)
@@ -43,7 +45,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(currentLevel);
         }
 
         if (Input.GetKeyDown(KeyCode.S))
@@ -65,6 +67,9 @@ public class Player : MonoBehaviour
 
     public void Load()
     {
+        //uiManager.Reset();
+        //ani.SetTrigger("idle");
+        //SceneManager.LoadScene(currentLevel);
         PlayerData data = SaveLoadSystem.LoadState();
 
         currentHealth = data.health;

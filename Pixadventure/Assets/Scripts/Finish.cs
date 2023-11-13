@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class Finish : MonoBehaviour
 {
-    [SerializeField] private Player playerHealth;
+    [SerializeField] private Player player;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")
         {
-            playerHealth.GameOver();
+            player.GameOver();
         }
     }
 }

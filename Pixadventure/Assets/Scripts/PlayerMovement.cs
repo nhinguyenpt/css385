@@ -5,21 +5,24 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float scale;
     [SerializeField] private float speed;
     [SerializeField] private float jumpPower;
+    [SerializeField] private float gravity;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask wallLayer;
     private Rigidbody2D body;
     private Animator anim;
     private EdgeCollider2D boxCollider;
-    private float wallJumpCooldown;
     private float horizontalInput;
+    private float externalHorizontalVelocity;
+    private bool onPlatform;
 
     private void Awake()
     {
         //Grab references for rigidbody and animator from object
         body = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        //boxCollider = GetComponent<BoxCollider2D>();
         boxCollider = GetComponent<EdgeCollider2D>();
+        externalHorizontalVelocity = 0;
+        onPlatform = false;
     }
 
     private void Update()
@@ -35,33 +38,45 @@ public class PlayerMovement : MonoBehaviour
         //Set animator parameters
         anim.SetBool("run", horizontalInput != 0);
         anim.SetBool("grounded", isGrounded());
-        
-        //Wall jump logic
-        if (wallJumpCooldown > 0.2f)
-        {
-            body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
 
-            if (onWall() && !isGrounded())
-            {
-                body.gravityScale = 5;
-                body.velocity = Vector2.zero;
-            }
-            else
-                body.gravityScale = 7;
+        float horizontalVelocity = horizontalInput * speed + externalHorizontalVelocity;
+        body.velocity = new Vector2(horizontalVelocity, body.velocity.y);
+        body.gravityScale = gravity;
 
-            if (Input.GetKey(KeyCode.Space))
-                Jump();
-        }
-        else
-            wallJumpCooldown += Time.deltaTime;
+        if (Input.GetKey(KeyCode.Space))
+            Jump();
+    }
+
+    public void SetExternalVelocity(float velocity)
+    {
+        externalHorizontalVelocity = velocity;
     }
 
     private void Jump()
     {
-        if (isGrounded())
+        if (isGrounded() || onPlatform)
         {
             body.velocity = new Vector2(body.velocity.x, jumpPower);
             anim.SetTrigger("jump");
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag.Equals("MovingPlatform"))
+        {
+            print("Enter platform");
+            onPlatform = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag.Equals("MovingPlatform"))
+        {
+            print("Exit platform");
+            onPlatform = false;
+            externalHorizontalVelocity = 0;
         }
     }
 
@@ -69,11 +84,6 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded()
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
-        return raycastHit.collider != null;
-    }
-    private bool onWall()
-    {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, new Vector2(transform.localScale.x, 0), 0.1f, wallLayer);
         return raycastHit.collider != null;
     }
 }

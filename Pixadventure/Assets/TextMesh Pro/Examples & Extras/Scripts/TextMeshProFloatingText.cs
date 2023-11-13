@@ -156,7 +156,7 @@ namespace TMPro.Examples
                 yield return k_WaitForEndOfFrame;
             }
 
-            //Debug.Log("Done Counting down.");
+            //Debug.Log("Done Counting up.");
 
             yield return k_WaitForSecondsRandom[Random.Range(0, 19)];
 
@@ -211,7 +211,7 @@ namespace TMPro.Examples
                 yield return k_WaitForEndOfFrame;
             }
 
-            //Debug.Log("Done Counting down.");
+            //Debug.Log("Done Counting up.");
 
             yield return k_WaitForSecondsRandom[Random.Range(0, 20)];
 

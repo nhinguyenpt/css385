@@ -3,11 +3,11 @@ using UnityEngine;
 public class PlayerRespawn : MonoBehaviour
 {
     private Transform currentCheckpoint;
-    private Player playerHealth;
+    private Player player;
 
     private void Awake()
     {        
-        playerHealth = GetComponent<Player>();
+        player = GetComponent<Player>();
     }
 
     private void Respawn()
