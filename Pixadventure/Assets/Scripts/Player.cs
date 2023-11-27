@@ -4,15 +4,19 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float maxHealth;
+
+    [Header("Audio")]
+    [SerializeField] private AudioClip victorySound;
+    [SerializeField] private AudioClip deathSound;
     public float currentHealth { get; private set; }
-    private Animator ani;
+    private Animator animator;
     private UIManager uiManager;
     private int currentLevel;
 
     private void Awake()
     {
         currentHealth = maxHealth;
-        ani = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
         uiManager = FindObjectOfType<UIManager>();
         currentLevel = 0;
     }
@@ -32,11 +36,14 @@ public class Player : MonoBehaviour
         GetComponent<PlayerMovement>().enabled = false;
         if (currentHealth == 0)
         {
-            ani.SetTrigger("die");
+            SoundManager.instance.PlaySound(deathSound);
+            animator.SetTrigger("die");
             uiManager.GameOver();
         } else 
         {
-            ani.SetTrigger("victory");
+            SoundManager.instance.StopBackground();
+            SoundManager.instance.PlaySound(victorySound);
+            animator.SetTrigger("victory");
             uiManager.Victory();
         }
     }

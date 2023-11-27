@@ -6,7 +6,7 @@ public class BasicTrap : MonoBehaviour
 {
     [SerializeField] private float damage;
     // Start is called before the first frame update
-
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")

@@ -35,53 +35,34 @@ public class SawTrap : MonoBehaviour
 
     private void Update()
     {
-        if (right)
+        // Horizontal Movement
+        if (right && transform.position.x > rightEdge)
         {
-            if (transform.position.x > rightEdge)
-            {
-                right = false;
-            }
-            else
-            {
-                transform.position = new Vector3(transform.position.x + moveSpeed * Time.deltaTime, transform.position.y, transform.position.z);
-            }
-        }  
-        else
-        {
-            if (transform.position.x < leftEdge)
-            {
-                right = true;
-            }
-            else
-            {
-                transform.position = new Vector3(transform.position.x - moveSpeed * Time.deltaTime, transform.position.y, transform.position.z);
-            }
+            right = false;
         }
-
-        if (up)
+        else if (!right && transform.position.x < leftEdge)
         {
-            if (transform.position.y > upperLimit)
-            {
-                print("SawTrap: change to down");
-                up = false;
-            }
-            else
-            {
-                transform.position = new Vector3(transform.position.x, transform.position.y + moveSpeed * Time.deltaTime, transform.position.z);
-            }
+            right = true;
         }
         else
         {
-            if (transform.position.y < lowerLimit)
-            {
-                print("SawTrap: change to up");
-                up = true;
-            }
-            else
-            {
-                transform.position = new Vector3(transform.position.x, transform.position.y - moveSpeed * Time.deltaTime, transform.position.z);
-            }
+            float horizontalChange = (right ? 1 : -1) * moveSpeed * Time.deltaTime;
+            transform.position += new Vector3(horizontalChange, 0, 0);
         }
 
+        // Vertical Movement
+        if (up && transform.position.y > upperLimit)
+        {
+            up = false;
+        }
+        else if (!up && transform.position.y < lowerLimit)
+        {
+            up = true;
+        }
+        else
+        {
+            float verticalChange = (up ? 1 : -1) * moveSpeed * Time.deltaTime;
+            transform.position += new Vector3(0, verticalChange, 0);
+        }
     }
 }
