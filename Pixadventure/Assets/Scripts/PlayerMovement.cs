@@ -8,34 +8,34 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpPower;
     [SerializeField] private float gravity;
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private LayerMask wallLayer;
-
 
     [Header("Jump Clip")]
     [SerializeField] private AudioClip jumpSound;
 
-    private Rigidbody2D body;
-    private Animator anim;
-    private EdgeCollider2D boxCollider;
-    private float horizontalInput;
-    private bool onPlatform;
+    private Rigidbody2D _rigidbody;
+    private Animator _animator;
+    private EdgeCollider2D _bodyCollider;
+    private BoxCollider2D _feetCollider2D;
+    private float _horizontalInput;
+    private bool _isOnPlatform;
 
     private void Awake()
     {
         //Grab references for rigidbody and animator from object
-        body = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
-        boxCollider = GetComponent<EdgeCollider2D>();
-        onPlatform = false;
+        _rigidbody = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
+        _bodyCollider = GetComponent<EdgeCollider2D>();
+        _feetCollider2D = GetComponent<BoxCollider2D>();
+        _isOnPlatform = false;
     }
 
     private void AdjustScale()
     {
-        horizontalInput = Input.GetAxis("Horizontal");
+        _horizontalInput = Input.GetAxis("Horizontal");
         //Flip player when moving left-right
-        if (horizontalInput > 0.01f)
+        if (_horizontalInput > 0.01f)
             transform.localScale = new Vector3(scale, scale);
-        else if (horizontalInput < -0.01f)
+        else if (_horizontalInput < -0.01f)
             transform.localScale = new Vector3(-1.0f * scale, scale);
     }
 
@@ -44,8 +44,8 @@ public class PlayerMovement : MonoBehaviour
         AdjustScale();
         
         //Set animator parameters
-        anim.SetBool("run", horizontalInput != 0);
-        anim.SetBool("grounded", isGrounded());
+        _animator.SetBool("run", _horizontalInput != 0);
+        _animator.SetBool("grounded", isGrounded());
 
         if (Input.GetKey(KeyCode.Space))
             Jump();
@@ -53,20 +53,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        horizontalInput = Input.GetAxis("Horizontal");
-        float horizontalVelocity = horizontalInput * speed;
+        _horizontalInput = Input.GetAxis("Horizontal");
+        float horizontalVelocity = _horizontalInput * speed;
         
-        body.velocity = new Vector2(horizontalVelocity, body.velocity.y);
-        body.gravityScale = gravity;
+        _rigidbody.velocity = new Vector2(horizontalVelocity, _rigidbody.velocity.y);
+        _rigidbody.gravityScale = gravity;
     }
 
     private void Jump()
     {
-        if (isGrounded() || onPlatform)
+        if (isGrounded() || _isOnPlatform)
         {
             SoundManager.instance.PlaySound(jumpSound);
-            body.velocity = new Vector2(body.velocity.x, jumpPower);
-            anim.SetTrigger("jump");
+            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, jumpPower);
+            _animator.SetTrigger("jump");
         }
     }
 
@@ -75,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.tag.Equals("MovingPlatform"))
         {
             print("Enter platform");
-            onPlatform = true;
+            _isOnPlatform = true;
         }
     }
     
@@ -84,13 +84,15 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.tag.Equals("MovingPlatform"))
         {
             print("Exit platform");
-            onPlatform = false;
+            _isOnPlatform = false;
         }
     }
 
     private bool isGrounded()
     {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
-        return raycastHit.collider != null || onPlatform;
+        // RaycastHit2D raycastHit = Physics2D.BoxCast(_bodyCollider.bounds.center, _bodyCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
+        RaycastHit2D raycastHit = Physics2D.BoxCast(_feetCollider2D.bounds.center, 
+            _feetCollider2D.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
+        return raycastHit.collider != null || _isOnPlatform;
     }
 }

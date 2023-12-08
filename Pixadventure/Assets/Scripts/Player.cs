@@ -74,9 +74,10 @@ public class Player : MonoBehaviour
 
     public void Load()
     {
-        //uiManager.Reset();
-        //ani.SetTrigger("idle");
-        //SceneManager.LoadScene(currentLevel);
+        uiManager.Reset();
+        animator.SetTrigger("reload");
+        GetComponent<PlayerMovement>().enabled = true;
+        // animator.SetTrigger("idle");
         PlayerData data = SaveLoadSystem.LoadState();
 
         currentHealth = data.health;

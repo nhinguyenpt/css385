@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlatformMove : MonoBehaviour
 {
-    [SerializeField] private PlayerMovement movement;
     [SerializeField] private float moveDistance;
     [SerializeField] private float moveSpeed;
 
@@ -20,7 +19,7 @@ public class PlatformMove : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (moveRight)
         {
@@ -44,31 +43,13 @@ public class PlatformMove : MonoBehaviour
             }
         }
     }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {        
-        // if (collision.gameObject.tag == "Player")
-        // {
-        //     if (moveRight)
-        //     {
-        //         movement.SetExternalVelocity(moveSpeed);
-        //     } else
-        //     {
-        //         movement.SetExternalVelocity(-1 * moveSpeed);
-        //     }
-        // }
-    }
-
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
             print("Player OnTriggerEnter2D " + this.name);
-            
-            print("LocalScale before: " + collision.transform.localScale);
-            
             collision.transform.SetParent(this.transform);
-            print("LocalScale after: " + collision.transform.localScale);
         }
     }
     
