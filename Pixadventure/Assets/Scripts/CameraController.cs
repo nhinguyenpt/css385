@@ -9,7 +9,7 @@ public class CameraController : MonoBehaviour
     public float offset;
     [Range(1, 10)]
     public float smoothFactor;
-    public Vector3 v3offset;
+    public Vector2 offset2D;
     public Vector3 minValues, maxValue;
 
     private Vector3 playerPosition;
@@ -31,11 +31,11 @@ public class CameraController : MonoBehaviour
 
         if (player.transform.localScale.x > 0f)
         {
-            playerPosition = new Vector3(playerPosition.x + offset, playerPosition.y, playerPosition.z);
+            playerPosition = new Vector3(playerPosition.x + offset2D.x, playerPosition.y + offset2D.y, playerPosition.z);
         }
         else
         {
-            playerPosition = new Vector3(playerPosition.x - offset, playerPosition.y, playerPosition.z);
+            playerPosition = new Vector3(playerPosition.x - offset2D.x, playerPosition.y + offset2D.y, playerPosition.z);
         }
 
         Vector3 boundPosition = new Vector3(

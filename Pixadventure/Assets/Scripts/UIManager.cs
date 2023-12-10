@@ -43,11 +43,6 @@ public class UIManager : MonoBehaviour
         loadText.SetActive(false);
     }
 
-    public void Restart()
-    {
-        SceneManager.LoadScene(0);
-    }
-
     public void Saving()
     {
         StartCoroutine(RemoveAfterSeconds(0.5f, saveText));

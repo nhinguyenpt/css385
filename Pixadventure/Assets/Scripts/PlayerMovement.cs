@@ -86,6 +86,8 @@ public class PlayerMovement : MonoBehaviour
             print("Exit platform");
             _isOnPlatform = false;
         }
+
+        Debug.Log(collision.gameObject);
     }
 
     private bool isGrounded()

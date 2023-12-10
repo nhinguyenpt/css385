@@ -11,14 +11,14 @@ public class Player : MonoBehaviour
     public float currentHealth { get; private set; }
     private Animator animator;
     private UIManager uiManager;
-    private int currentLevel;
+    private string currentLevel;
 
     private void Awake()
     {
         currentHealth = maxHealth;
         animator = GetComponent<Animator>();
         uiManager = FindObjectOfType<UIManager>();
-        currentLevel = 0;
+        currentLevel = SceneManager.GetActiveScene().name;
     }
 
     public void TakeDamage(float _damage)

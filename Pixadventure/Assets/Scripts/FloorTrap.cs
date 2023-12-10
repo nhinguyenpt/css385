@@ -10,6 +10,6 @@ public class FloorTrap : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D target)
     {
         print("FloorTrap damage");
-        player.TakeDamage(100);
+        player.TakeDamage(1000);
     }
 }
