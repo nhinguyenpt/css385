@@ -3,35 +3,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpikeFall : BasicTrap
+public class SpikeFall : MovingTrap
 {
     [SerializeField] private float gravity;
     [SerializeField] private float range;
     [SerializeField] private LayerMask playerLayer;
 
-    private Vector3[] directions = new Vector3[2];
+    private const float RAY_LENGTH = 10;
 
     private void Update()
     {
-        findProximity();
-
-        for (int i = 0; i < directions.Length; i++)
+        Vector3 rayPos = new Vector3(transform.position.x - range, transform.position.y, transform.position.z);
+        Debug.DrawRay(rayPos, -transform.up * RAY_LENGTH, Color.blue);
+        RaycastHit2D hit = Physics2D.Raycast(rayPos, -transform.up, RAY_LENGTH, playerLayer);
+        
+        if (hit.collider != null)
         {
-            Debug.DrawRay(transform.position, directions[i], Color.blue);
-
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, directions[i], range, playerLayer);
-
-            if (hit.collider != null)
-            {
-                Debug.Log("Trigger Falling Trap");
-                this.GetComponent<Rigidbody2D>().gravityScale = gravity;
-            }
+            Debug.Log("Trigger Falling Spike Trap");
+            this.GetComponent<Rigidbody2D>().gravityScale = gravity;
         }
     }
 
-    private void findProximity()
+    public void ResetPos()
     {
-        directions[0] = transform.right * range;
-        directions[1] = -transform.right * range;
+        Debug.Log("Reset Falling Spike Trap");
+        Rigidbody2D body = this.GetComponent<Rigidbody2D>();
+        body.gravityScale = 0;
+        body.velocity = new Vector2(0, 0);
+        base.ResetPos();
     }
+
+
 }

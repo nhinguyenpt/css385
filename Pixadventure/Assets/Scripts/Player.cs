@@ -12,13 +12,14 @@ public class Player : MonoBehaviour
     private Animator animator;
     private UIManager uiManager;
     private string currentLevel;
-
+    private bool _victory;
     private void Awake()
     {
         currentHealth = maxHealth;
         animator = GetComponent<Animator>();
         uiManager = FindObjectOfType<UIManager>();
         currentLevel = SceneManager.GetActiveScene().name;
+        _victory = false;
     }
 
     public void TakeDamage(float _damage)
@@ -45,6 +46,7 @@ public class Player : MonoBehaviour
             SoundManager.instance.PlaySound(victorySound);
             animator.SetTrigger("victory");
             uiManager.Victory();
+            _victory = true;
         }
     }
 
@@ -64,6 +66,16 @@ public class Player : MonoBehaviour
         {
             Load();
         }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Application.Quit();
+        }
+
+        if (Input.GetKeyDown(KeyCode.C) && _victory)
+        {
+            NextLevel();
+        }
     }
 
     public void Save()
@@ -76,17 +88,33 @@ public class Player : MonoBehaviour
     {
         uiManager.Reset();
         animator.SetTrigger("reload");
+
         GetComponent<PlayerMovement>().enabled = true;
-        // animator.SetTrigger("idle");
         PlayerData data = SaveLoadSystem.LoadState();
-
         currentHealth = data.health;
-
         Vector3 position;
         position.x = data.position[0];
         position.y = data.position[1];
         position.z = data.position[2];
         transform.position = position;
         uiManager.Loading();
+
+        ResetMovingTraps();
+    }
+
+    private void ResetMovingTraps()
+    {
+        GameObject[] gameObjects = GameObject.FindGameObjectsWithTag ("MovingTrap");
+        foreach (var gameObject in gameObjects)
+        {
+            SpikeFall trap = gameObject.GetComponent<SpikeFall>();
+            if (trap != null)
+                trap.ResetPos();
+        }
+    }
+
+    public void NextLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

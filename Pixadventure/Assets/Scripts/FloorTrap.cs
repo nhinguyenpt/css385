@@ -9,7 +9,10 @@ public class FloorTrap : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D target)
     {
-        print("FloorTrap damage");
-        player.TakeDamage(1000);
+        if (target.CompareTag("Player"))
+        {
+            print("FloorTrap damage");
+            player.TakeDamage(1000);    
+        }
     }
 }
