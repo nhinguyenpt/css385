@@ -8,23 +8,23 @@ public class PlatformMove : MonoBehaviour
     [SerializeField] private float moveSpeed;
     
 
-    private bool moveRight;
-    private float leftEdge;
-    private float rightEdge;
+    private bool _moveRight;
+    private float _leftEdge;
+    private float _rightEdge;
     
-    private bool moveUp;
-    private float upperLimit;
-    private float lowerLimit;
+    private bool _moveUp;
+    private float _upperLimit;
+    private float _lowerLimit;
 
     private void Awake()
     {
-        leftEdge = transform.position.x;
-        rightEdge = transform.position.x + moveDistance.x;
-        moveRight = true;
+        _leftEdge = transform.position.x;
+        _rightEdge = transform.position.x + moveDistance.x;
+        _moveRight = true;
 
-        moveUp = true;
-        lowerLimit = transform.position.y;
-        upperLimit = transform.position.y + moveDistance.y;
+        _moveUp = true;
+        _lowerLimit = transform.position.y;
+        _upperLimit = transform.position.y + moveDistance.y;
     }
 
     // Update is called once per frame
@@ -36,11 +36,11 @@ public class PlatformMove : MonoBehaviour
 
     private void MoveHorizontal()
     {
-        if (moveRight)
+        if (_moveRight)
         {
-            if (transform.position.x > rightEdge)
+            if (transform.position.x > _rightEdge)
             {
-                moveRight = false;
+                _moveRight = false;
             }
             else
             {
@@ -48,9 +48,9 @@ public class PlatformMove : MonoBehaviour
             }
         } else 
         {
-            if (transform.position.x < leftEdge)
+            if (transform.position.x < _leftEdge)
             {
-                moveRight = true;
+                _moveRight = true;
             }
             else
             {
@@ -61,11 +61,11 @@ public class PlatformMove : MonoBehaviour
     
     private void MoveVertical()
     {
-        if (moveUp)
+        if (_moveUp)
         {
-            if (transform.position.y > upperLimit)
+            if (transform.position.y > _upperLimit)
             {
-                moveUp = false;
+                _moveUp = false;
             }
             else
             {
@@ -73,9 +73,9 @@ public class PlatformMove : MonoBehaviour
             }
         } else 
         {
-            if (transform.position.y < lowerLimit)
+            if (transform.position.y < _lowerLimit)
             {
-                moveUp = true;
+                _moveUp = true;
             }
             else
             {

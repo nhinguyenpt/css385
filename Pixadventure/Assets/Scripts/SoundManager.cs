@@ -2,19 +2,19 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    public static SoundManager instance { get; private set; }
-    private AudioSource m_AudioSource;
+    public static SoundManager Instance { get; private set; }
+    private AudioSource _audioSource;
 
     private void Awake()
     {
-        instance = this;
-        m_AudioSource = GetComponent<AudioSource>();
+        Instance = this;
+        _audioSource = GetComponent<AudioSource>();
     }
 
-    public void PlaySound(AudioClip _clip) => m_AudioSource.PlayOneShot(_clip);
+    public void PlaySound(AudioClip _clip) => _audioSource.PlayOneShot(_clip);
 
     public void StopBackground()
     {
-        m_AudioSource.Stop();
+        _audioSource.Stop();
     }
 }

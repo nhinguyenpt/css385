@@ -1262,11 +1262,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c83e25f45631f74c999fa93bd3dbe53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1088074353}
   player: {fileID: 1088074351}
-  offset: 2
   smoothFactor: 2
-  offset2D: {x: 0, y: 0}
+  offset2D: {x: 2, y: 0.8}
   minValues: {x: -2, y: 0, z: 0}
   maxValue: {x: 100, y: 100, z: 0}
 --- !u!1 &614669567

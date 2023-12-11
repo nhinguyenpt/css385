@@ -64,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isGrounded() || _isOnPlatform)
         {
-            SoundManager.instance.PlaySound(jumpSound);
+            SoundManager.Instance.PlaySound(jumpSound);
             _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, jumpPower);
             _animator.SetTrigger("jump");
         }

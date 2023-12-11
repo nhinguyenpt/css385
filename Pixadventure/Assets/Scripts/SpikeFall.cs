@@ -9,13 +9,13 @@ public class SpikeFall : MovingTrap
     [SerializeField] private float range;
     [SerializeField] private LayerMask playerLayer;
 
-    private const float RAY_LENGTH = 10;
+    private const float RayLength = 10;
 
     private void Update()
     {
         Vector3 rayPos = new Vector3(transform.position.x - range, transform.position.y, transform.position.z);
-        Debug.DrawRay(rayPos, -transform.up * RAY_LENGTH, Color.blue);
-        RaycastHit2D hit = Physics2D.Raycast(rayPos, -transform.up, RAY_LENGTH, playerLayer);
+        Debug.DrawRay(rayPos, -transform.up * RayLength, Color.blue);
+        RaycastHit2D hit = Physics2D.Raycast(rayPos, -transform.up, RayLength, playerLayer);
         
         if (hit.collider != null)
         {

@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public Transform target;
-    public GameObject player;
-    public float offset;
+    [SerializeField] public GameObject player;
     [Range(1, 10)]
-    public float smoothFactor;
-    public Vector2 offset2D;
-    public Vector3 minValues, maxValue;
+    [SerializeField] public float smoothFactor;
+    [SerializeField] public Vector2 offset2D;
+    [SerializeField] public Vector3 minValues, maxValue;
 
-    private Vector3 playerPosition;
+    private Vector3 _playerPosition;
 
     private void Awake()
     {
@@ -27,21 +25,21 @@ public class CameraController : MonoBehaviour
 
     private void syncCamera(float offsetSmoothing)
     {
-        playerPosition = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
+        _playerPosition = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
 
         if (player.transform.localScale.x > 0f)
         {
-            playerPosition = new Vector3(playerPosition.x + offset2D.x, playerPosition.y + offset2D.y, playerPosition.z);
+            _playerPosition = new Vector3(_playerPosition.x + offset2D.x, _playerPosition.y + offset2D.y, _playerPosition.z);
         }
         else
         {
-            playerPosition = new Vector3(playerPosition.x - offset2D.x, playerPosition.y + offset2D.y, playerPosition.z);
+            _playerPosition = new Vector3(_playerPosition.x - offset2D.x, _playerPosition.y + offset2D.y, _playerPosition.z);
         }
 
         Vector3 boundPosition = new Vector3(
-            Mathf.Clamp(playerPosition.x, minValues.x, maxValue.x),
-            Mathf.Clamp(playerPosition.y, minValues.y, maxValue.y),
-            playerPosition.z);
+            Mathf.Clamp(_playerPosition.x, minValues.x, maxValue.x),
+            Mathf.Clamp(_playerPosition.y, minValues.y, maxValue.y),
+            _playerPosition.z);
 
         transform.position = Vector3.Lerp(transform.position, boundPosition, offsetSmoothing * Time.deltaTime);
     }
